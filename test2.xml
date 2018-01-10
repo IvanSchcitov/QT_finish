@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--example with no DTD-->
+<root>
+	<folder>
+		<name>Новая папка</name>
+		<stritem>Привет мир 1</stritem>
+		<intitem>12</intitem>
+		<floatitem>33.3</floatitem>
+	</folder>
+        <folder>
+                <name>Новая папка 2</name>
+                <stritem>Привет мир 2</stritem>
+                <intitem>48</intitem>
+                <floatitem>11.61</floatitem>
+        </folder>
+        <folder>
+                <name>Новая папка 3</name>
+                <stritem>Привет мир 3</stritem>
+                <intitem>50</intitem>
+                <floatitem>21.2</floatitem>
+        </folder>
+        <folder>
+                <name>Новая папка N</name>
+                <stritem>Привет мир N</stritem>
+                <intitem>520</intitem>
+                <floatitem>421.2</floatitem>
+        </folder>
+
+</root>
