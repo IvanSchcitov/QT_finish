@@ -72,6 +72,24 @@ int TreeModel::rowCount(const QModelIndex &parent) const {
     return parentItem->childCount();
 }
 
+void parsXML(QXmlStreamReader &reader, QList<TreeItem*> &parents){
+
+
+    while(reader.readNextStartElement()){
+
+        QVector <QVariant> columnData; //Список данных столбцов
+        columnData << reader.name().toString();
+        parents << parents.last()->child(parents.last()->childCount()-1);
+        parents.last()->appendChild(new TreeItem(columnData, parents.last()));
+
+        parsXML(reader, parents);
+
+        parents.pop_back();
+
+    }
+
+}
+
 void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent) {
     QFile file(":/test2.xml");
     if(!file.open(QFile::ReadOnly | QFile::Text)){
@@ -87,58 +105,51 @@ void TreeModel::setupModelData(const QStringList &lines, TreeItem *parent) {
     indentations << 0;
     int number = 0;
 
-    if (reader.readNextStartElement()) {
+//    QVector <QVariant> columnData; //Список данных столбцов
+//    columnData << "folder1";
+//    parents.last()->appendChild(new TreeItem(columnData, parents.last()));
 
-                //Учитываем разделитель столбцов
-                QVector <QVariant> columnData; //Список данных столбцов
-                columnData << reader.name().toString();
-//                if (position > indentations.last()) {
-//                    //Последний потомок текущего родителя теперь будет новым родителем,
-//                    //пока у текущего родителя нет потомков
-//                    if (parents.last()->childCount() > 0) {
-//                        parents << parents.last()->child(parents.last()->childCount()-1);
-//                        indentations << position;
-//                    }
-//                }
-//                else {
-//                    while (position < indentations.last() && parents.count() > 0) {
-//                        parents.pop_back();
-//                        indentations.pop_back();
-//                    }
-//                }
-                //Добавить новый узел в список потомков текущего родителя
-                parents.last()->appendChild(new TreeItem(columnData, parents.last()));
+//    columnData.last() = "item1";
+//    parents << parents.last()->child(parents.last()->childCount()-1);
+//    parents.last()->appendChild(new TreeItem(columnData, parents.last()));
 
-    }
+//    parents.pop_back();
+//    columnData.last() = "folder2";
+//    parents.last()->appendChild(new TreeItem(columnData, parents.last()));
 
 
-
-//    if (reader.readNextStartElement()) {
-
-//            if (reader.name() == "root"){
+    int i = 0, j = 0, k = 0;
+    while(reader.readNextStartElement()) {
+        QVector <QVariant> columnData; //Список данных столбцов
+        columnData << reader.name().toString();
+        parents.last()->appendChild(new TreeItem(columnData, parents.last()));
+        parsXML(reader, parents);
+//                i++;
 //                while(reader.readNextStartElement()){
-
-//                    if(reader.name() == "folder"){
+//                    j++;
+//                    QVector <QVariant> columnData2; //Список данных столбцов
+//                    columnData2 << reader.name().toString();
+//                    parents << parents.last()->child(parents.last()->childCount()-1);
+//                    parents.last()->appendChild(new TreeItem(columnData2, parents.last()));
 
 //                        while(reader.readNextStartElement()){
-//                            if(reader.name() == "stritem"){
-//                                j++;
+//                            k++;
+//                            QVector <QVariant> columnData3; //Список данных столбцов
+//                            columnData3 << reader.name().toString();
+//                            parents << parents.last()->child(parents.last()->childCount()-1);
+//                            parents.last()->appendChild(new TreeItem(columnData3, parents.last()));
+//                            parents.pop_back();
+
 //                                QString s = reader.readElementText();
 //                                qDebug(qPrintable(s));
 
-//                            }
-//                            else
-//                                reader.skipCurrentElement();
 //                        }
-//                    }
-//                    else
-//                        reader.skipCurrentElement();
-//                }
-//            }
-//            else
-//                reader.raiseError(QObject::tr("Incorrect file"));
-//    }
+//                    parents.pop_back();
 
+//                }
+
+    }
+number = 100;
 
 //    QList<TreeItem*> parents;
 //    QList<int> indentations;

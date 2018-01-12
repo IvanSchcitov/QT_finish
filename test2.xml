@@ -16,6 +16,9 @@
         <folder>
                 <name>Новая папка 3</name>
                 <stritem>Привет мир 3</stritem>
+                <folder>
+                    <item>Surprise!!!</item>
+                </folder>
                 <intitem>50</intitem>
                 <floatitem>21.2</floatitem>
         </folder>
