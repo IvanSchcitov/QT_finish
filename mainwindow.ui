@@ -90,6 +90,16 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <widget class="QTableView" name="tableView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>291</width>
+        <height>381</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

@@ -9,8 +9,8 @@ class TreeItem
 {
 public:
     //TreeItem();
-    explicit TreeItem (const QVector<QVariant> &data,
-        TreeItem *parentItem = 0); //Конструктор узла дерева
+    explicit TreeItem (const QString &data,
+        TreeItem *parent = 0); //Конструктор узла дерева
     ~TreeItem();               //...и деструктор
 
     void appendChild(TreeItem *child); //Добавить узел-потомок
@@ -25,10 +25,17 @@ public:
     bool removeChildren(int position, int count);  //Удалить потомков
     bool setData(int column, const QVariant &value); //Установить данные
 
+    bool initListData(QString type, QString data);
+    void getListData(QList<QString> &sData, QList<int> &iData, QList<float> &fData);
+
 private: //Внутреннее представление данных:
     QList <TreeItem*> m_childItems; //Список дочерних элементов
-    QVector <QVariant> m_itemData; //Список данных текущего узла
+    QString m_itemData; //Список данных текущего узла
     TreeItem *m_parentItem; //Ссылка на родительский узел
+
+    QList <QString> m_stringData; //Список данных листа типа String
+    QList <int> m_intData; //Список данных листа типа Int
+    QList <float> m_floatData; //Список данных листа типа Float
 };
 
 #endif // TREEITEM_HPP

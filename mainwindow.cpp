@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "treemodel.hpp"
+
+
+TreeModel *model;
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -10,18 +13,27 @@ MainWindow::MainWindow(QWidget *parent) :
     //Инициализируем ресурсы:
     Q_INIT_RESOURCE(simpletreemodel);
     //Получаем предустановленное "дерево" в file:
-    QFile file(":/default.txt");
-    file.open(QIODevice::ReadOnly);
+    QFile file(":/test2.xml");
+    if(!file.open(QFile::ReadOnly | QFile::Text)){
+        qDebug() << "Cannot read file" << file.errorString();
+        exit(0);
+    }
+
+
     //Создаем заголовки столбцов:
-    QVector <QVariant> headers;
-    headers << tr("Node") << tr("Data");
+    QString headers;
+    headers = "Nodes";
     //Загружаем данные в модель:
-    TreeModel *model = new TreeModel(headers, file.readAll());
+    model = new TreeModel(headers, file);
     file.close();
     ui->TreeView_obj->setModel(model);
     for (int column = 0; column < model->columnCount(); ++column) ui->TreeView_obj->resizeColumnToContents(column);
 
+
+
     //Осталось соединить сигналы со слотами:
+//    connect(ui->TreeView_obj->selectionModel(),SIGNAL(selectionChanged(const QItemSelection&,const QItemSelection&)),
+//            this, SLOT(updateActions(const QItemSelection&,const QItemSelection&, const model&)));
     connect(ui->TreeView_obj->selectionModel(),SIGNAL(selectionChanged(const QItemSelection&,const QItemSelection&)),
             this, SLOT(updateActions(const QItemSelection&,const QItemSelection&)));
     connect(ui->pbCreate,SIGNAL(clicked()),this,SLOT(insertRow()));
@@ -76,7 +88,12 @@ void MainWindow::removeRow() {
     if (model->removeRow(index.row(), index.parent())) updateActions();
 }
 
-void MainWindow::updateActions(const QItemSelection &selected,const QItemSelection &deselected) {
+
+void MainWindow::updateActions(const QItemSelection &selected, const QItemSelection &deselected) {
+    QModelIndex index = ui->TreeView_obj->selectionModel()->currentIndex();
+    TableModel *t_model = new TableModel(model->getItemPublic(index));
+    ui->tableView->setModel(t_model);
+
     updateActions();
 }
 

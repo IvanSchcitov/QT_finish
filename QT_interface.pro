@@ -27,12 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     treeitem.cpp \
-    treemodel.cpp
+    treemodel.cpp \
+    tablemodel.cpp
 
 HEADERS += \
         mainwindow.h \
     treeitem.hpp \
-    treemodel.hpp
+    treemodel.hpp \
+    tablemodel.h
 
 FORMS += \
         mainwindow.ui

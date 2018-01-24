@@ -5,13 +5,15 @@
 #include <QModelIndex>
 #include "treeitem.hpp"
 
+#include <QXmlStreamReader>
+
 
 class TreeModel: public QAbstractItemModel
 {
     Q_OBJECT
 public:
 //    TreeModel();
-    TreeModel(const QVector <QVariant> &headers, const QString &data, QObject *parent = 0);
+    TreeModel(const QString &headers, QFile &file, QObject *parent = 0);
     ~TreeModel();
     /*
      Уточняем заголовки методов правильными ключевыми словами C++:
@@ -42,8 +44,11 @@ public:
     bool removeRows(int position, int rows, const QModelIndex &parent = QModelIndex()) override;
      //вставка и удаление столбцов и строк
 
+    TreeItem *getItemPublic(const QModelIndex &index) const;
+
 private:
-    void setupModelData(const QStringList &lines, TreeItem *parent);
+    void parsXML(QXmlStreamReader &reader, QList<TreeItem*> &parents);
+    void setupModelData(QFile &file, TreeItem *parent);
      //внутренний метод для установки данных модели
     TreeItem *getItem(const QModelIndex &index) const;
      //внутренний метод для получения элемента

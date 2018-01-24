@@ -7,6 +7,9 @@
 #include <QFile>
 #include <QDir>
 
+#include "treemodel.hpp"
+#include "tablemodel.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -30,6 +33,7 @@ private slots: //слоты для действий, выполняемых по
 
     void removeRow();
 public slots: //для реализации сигнала selectionChanged у QTreeView::selectionModel
+//    void updateActions(const QItemSelection &,const QItemSelection &, TreeModel* model);
     void updateActions(const QItemSelection &,const QItemSelection &);
 };
 

@@ -1,32 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--example with no DTD-->
 <root>
-	<folder>
-		<name>Новая папка</name>
-		<stritem>Привет мир 1</stritem>
-		<intitem>12</intitem>
-		<floatitem>33.3</floatitem>
+	<folder name="New Folder">
+		<item type="string">Привет мир 1</item>
+                <item type="string">Привет</item>
+		<item type="int">12</item>
+		<item type="float">33.3</item>
 	</folder>
-        <folder>
-                <name>Новая папка 2</name>
-                <stritem>Привет мир 2</stritem>
-                <intitem>48</intitem>
-                <floatitem>11.61</floatitem>
-        </folder>
-        <folder>
-                <name>Новая папка 3</name>
-                <stritem>Привет мир 3</stritem>
-                <folder>
-                    <item>Surprise!!!</item>
-                </folder>
-                <intitem>50</intitem>
-                <floatitem>21.2</floatitem>
-        </folder>
-        <folder>
-                <name>Новая папка N</name>
-                <stritem>Привет мир N</stritem>
-                <intitem>520</intitem>
-                <floatitem>421.2</floatitem>
-        </folder>
+	<folder name="New Folder 1">
+		<item type="string">Привет мир 2</item>
+		<item type="int">48</item>
+		<item type="float">11.61</item>
+	</folder>
+	<folder name="New Folder 2">
+		<item type="string">Привет мир 3</item>
+		<folder name="New Folder 4">
+			<item type="string">Surprise!!!</item>
+                        <item type="int">100</item>
+		</folder>
+		<item type="int">50</item>
+                <item type="float">20.2</item>
+		<item type="float">21.2</item>
+	</folder>
+	<folder name="New Folder 3">
+		<item type="string">Привет мир N</item>
+		<item type="int">520</item>
+		<item type="float">421.2</item>
+	</folder>
 
 </root>

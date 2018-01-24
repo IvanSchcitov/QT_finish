@@ -5,7 +5,7 @@
 
 //}
 
-TreeItem::TreeItem (const QVector<QVariant> &data, TreeItem *parent) {
+TreeItem::TreeItem (const QString &data, TreeItem *parent) {
     //Конструктору узла нужно передать данные и ссылку на родителя
     m_parentItem = parent;
     m_itemData = data;
@@ -34,12 +34,12 @@ int TreeItem::childCount() const {
 }
 
 int TreeItem::columnCount() const {
-    return m_itemData.count();
+    return 1;//m_itemData.count();
     //Количество столбцов в узле = длине списка данных узла
 }
 
 QVariant TreeItem::data (int column) const {
-    return m_itemData.value(column);
+    return m_itemData/*.value(column)*/;
     //Взять данные из нужного столбца
 }
 
@@ -61,7 +61,7 @@ int TreeItem::childNumber() const {
 bool TreeItem::insertChildren(int position, int count, int columns) {
     if (position < 0 || position > m_childItems.size()) return false;
     for (int row = 0; row < count; ++row) {
-        QVector<QVariant> data(columns);
+        QString data(columns);
         TreeItem *item = new TreeItem(data, this);
         m_childItems.insert(position, item);
     }
@@ -79,6 +79,28 @@ bool TreeItem::removeChildren(int position, int count) {
 //А этот метод ставит значение value в столбец column элемента:
 bool TreeItem::setData(int column, const QVariant &value) {
     if (column < 0 || column >= m_itemData.size()) return false;
-    m_itemData[column] = value;
+    m_itemData/*[column]*/ = value.toString();
     return true;
+}
+
+bool TreeItem::initListData(QString type, QString data){
+
+    if(type == "string"){
+        m_stringData << data;
+        return 1;
+    }else if(type == "int"){
+        m_intData << data.toInt();
+        return 1;
+    }else if(type == "float"){
+        m_floatData << data.toFloat();
+        return 1;
+    }else
+        return 0;
+
+}
+
+void TreeItem::getListData(QList<QString> &sData, QList<int> &iData, QList<float> &fData){
+    sData = m_stringData;
+    iData = m_intData;
+    fData = m_floatData;
 }
