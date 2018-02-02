@@ -18,7 +18,7 @@ int TableModel::columnCount(const QModelIndex & /*parent*/) const
 
 QVariant TableModel::data(const QModelIndex &index, int role) const
 {
-    if (role == Qt::DisplayRole)
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         if(index.column() == 0){
             if((index.row() + 1) <= sData.count()){
@@ -43,12 +43,102 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
             }
         }
 
-//       return QString("Row%1, Column%2")
-//                   .arg(index.row() + 1)
-//                   .arg(index.column() +1);
-//        return QString("%1, %2")
-//                    .arg("string")
-//                    .arg(sData[0]);
     }
     return QVariant();
+}
+
+bool TableModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+
+    if (role != Qt::EditRole) return false;
+    int r = 0;
+    if(index.column() == 0){
+        QString str = "";
+
+        if(index.row() < sData.count()){
+            str = sData[index.row()];
+            sData.removeAt(index.row());
+        }else if(index.row() >= sData.count() && index.row() < (iData.count() + sData.count())){
+            str = QString::number(iData[index.row() - sData.count()]);
+            iData.removeAt(index.row() - sData.count());
+        }else if(index.row() >= (sData.count() + iData.count())){
+            str = QString::number(fData[index.row() - (sData.count() + iData.count())]);
+            fData.removeAt(index.row() - (sData.count() + iData.count()));
+        }
+
+        if(value.toString() == "string"){
+            sData << str;
+            str = "";
+        }else if(value.toString() == "int"){
+            iData << str.toInt();
+            str = "";
+        }else if(value.toString() == "float"){
+            fData << str.toFloat();
+            str = "";
+        }
+        return 1;
+    }
+
+    if(index.column() == 1){
+        if((index.row()) < sData.count()){
+            sData[index.row()] = value.toString();
+        }else if((index.row()) >= sData.count() && (index.row() + 1) <= iData.count() + sData.count()){
+            iData[index.row() - sData.count()] = value.toInt();
+        }else if((index.row()) >= iData.count() + sData.count() && (index.row() + 1) <= rows){
+            fData[index.row() - sData.count() - iData.count()] = value.toFloat();
+        }
+        return 1;
+    }
+//    stringCheck(str);
+//    TreeItem *item = getItem(index);
+//    bool result = item->setData(index.column(), value);
+//    if (result) {
+//        emit dataChanged(index, index);
+//    }
+//    return result;
+
+    return 0;
+}
+
+Qt::ItemFlags TableModel::flags(const QModelIndex &index) const {
+    if (!index.isValid()) return 0;
+    return Qt::ItemIsEditable | /*QAbstractItemModel::flags(index) |*/ Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+}
+
+void TableModel::delString(QModelIndex index){
+
+    if(index.row() >= 0){
+        beginRemoveRows(QModelIndex(), index.row(), index.row());
+            if(index.row() < sData.count()){
+                sData.removeAt(index.row());
+                --rows;
+            }else if(index.row() >= sData.count() && index.row() < (iData.count() + sData.count())){
+                iData.removeAt(index.row() - sData.count());
+                --rows;
+            }else if(index.row() >= (sData.count() + iData.count())){
+                fData.removeAt(index.row() - (sData.count() + iData.count()));
+                --rows;
+            }
+        endRemoveRows();
+    }
+
+}
+
+void TableModel::addString(QModelIndex index){
+
+    beginInsertRows(QModelIndex(), 0, 0);
+        sData << "New String";
+        rows++;
+    endInsertRows();
+
+}
+
+bool TableModel::stringCheck(QString str){
+    for(int i = 0; i < str.size(); i++){
+        if(str[i] < "0" && str[i] > "9"){
+            if(str[i] != "+" || str[i] != "-" || str[i] != "."){
+                return 0;
+            }
+        }
+    }
+    return 0;
 }

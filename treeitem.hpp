@@ -27,6 +27,7 @@ public:
 
     bool initListData(QString type, QString data);
     void getListData(QList<QString> &sData, QList<int> &iData, QList<float> &fData);
+    void setListData(QList<QString> sData, QList<int> iData, QList<float> fData);
 
 private: //Внутреннее представление данных:
     QList <TreeItem*> m_childItems; //Список дочерних элементов

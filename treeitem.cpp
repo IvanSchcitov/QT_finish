@@ -104,3 +104,9 @@ void TreeItem::getListData(QList<QString> &sData, QList<int> &iData, QList<float
     iData = m_intData;
     fData = m_floatData;
 }
+
+void TreeItem::setListData(QList<QString> sData, QList<int> iData, QList<float> fData){
+    m_stringData = sData;
+    m_intData = iData;
+    m_floatData = fData;
+}

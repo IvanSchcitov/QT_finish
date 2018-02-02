@@ -9,6 +9,7 @@
 
 #include "treemodel.hpp"
 #include "tablemodel.h"
+#include "qcomboboxdelegate.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +23,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void updateActions(); //слот для обновления состояния кнопок
+    void updateTableActions();
 
 private:
     Ui::MainWindow *ui;
@@ -32,9 +34,15 @@ private slots: //слоты для действий, выполняемых по
     void insertRow();
 
     void removeRow();
+
+    void insertTableRow();
+
+    void removeTableRow();
+
 public slots: //для реализации сигнала selectionChanged у QTreeView::selectionModel
-//    void updateActions(const QItemSelection &,const QItemSelection &, TreeModel* model);
+
     void updateActions(const QItemSelection &,const QItemSelection &);
+
 };
 
 #endif // MAINWINDOW_H

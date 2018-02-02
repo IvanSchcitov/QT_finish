@@ -28,13 +28,15 @@ SOURCES += \
         mainwindow.cpp \
     treeitem.cpp \
     treemodel.cpp \
-    tablemodel.cpp
+    tablemodel.cpp \
+    qcomboboxdelegate.cpp
 
 HEADERS += \
         mainwindow.h \
     treeitem.hpp \
     treemodel.hpp \
-    tablemodel.h
+    tablemodel.h \
+    qcomboboxdelegate.h
 
 FORMS += \
         mainwindow.ui
