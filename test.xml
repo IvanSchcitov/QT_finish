@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<folder name="New Folder">
+		<item type="string">Hello!!!</item>
+		<folder name="New Folder 3">
+			<item type="string">Surprise!!!</item>
+				<item type="int">100</item>
+				<item type="flat">50.5</item>
+				<folder name="New Folder 4">
+					<item type="string">Surprise again!!!</item>
+					<item type="int">40</item>
+					<item type="float">555.2</item>
+				</folder>
+		</folder>
+		<item type="int">10</item>
+		<item type="float">42.2</item>
+	</folder>
+	<folder name="New Folder 2">
+		<item type="string">Hello again!!!</item>
+		<item type="int">53</item>
+		<item type="float">33.2</item>
+	</folder>
+
+</root>

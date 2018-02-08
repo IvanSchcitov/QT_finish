@@ -6,10 +6,13 @@
 #include <QtWidgets>
 #include <QFile>
 #include <QDir>
+#include <QSettings>
+#include <QFileDialog>
 
 #include "treemodel.hpp"
 #include "tablemodel.h"
 #include "qcomboboxdelegate.h"
+#include <QXmlStreamWriter>
 
 namespace Ui {
 class MainWindow;
@@ -23,7 +26,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void updateActions(); //слот для обновления состояния кнопок
-    void updateTableActions();
+
 
 private:
     Ui::MainWindow *ui;
@@ -38,6 +41,10 @@ private slots: //слоты для действий, выполняемых по
     void insertTableRow();
 
     void removeTableRow();
+
+    void on_pbLoadXML_clicked();
+
+    void on_pbSaveXML_clicked();
 
 public slots: //для реализации сигнала selectionChanged у QTreeView::selectionModel
 

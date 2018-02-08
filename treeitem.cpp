@@ -38,9 +38,8 @@ int TreeItem::columnCount() const {
     //Количество столбцов в узле = длине списка данных узла
 }
 
-QVariant TreeItem::data (int column) const {
-    return m_itemData/*.value(column)*/;
-    //Взять данные из нужного столбца
+QVariant TreeItem::data () const {
+    return m_itemData;
 }
 
 TreeItem *TreeItem::parentItem() {

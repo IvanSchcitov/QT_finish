@@ -26,7 +26,7 @@ private:
     QList<int> iData;
     QList<float> fData;
 
-    bool stringCheck(QString str);
+    TreeItem *treeIt;
 
 };
 

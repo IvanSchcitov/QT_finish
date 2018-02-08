@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-		<file>test2.xml</file>
-	</qresource>
-</RCC>

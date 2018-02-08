@@ -6,6 +6,7 @@
 #include "treeitem.hpp"
 
 #include <QXmlStreamReader>
+#include <QXmlStreamWriter>
 
 
 class TreeModel: public QAbstractItemModel
@@ -45,9 +46,11 @@ public:
      //вставка и удаление столбцов и строк
 
     TreeItem *getItemPublic(const QModelIndex &index) const;
+    void saveXML(QFile &file) const;
 
 private:
     void parsXML(QXmlStreamReader &reader, QList<TreeItem*> &parents);
+    void saveXMLRecurs(TreeItem *treeItem, QXmlStreamWriter &stream) const;
     void setupModelData(QFile &file, TreeItem *parent);
      //внутренний метод для установки данных модели
     TreeItem *getItem(const QModelIndex &index) const;

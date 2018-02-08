@@ -41,7 +41,4 @@ HEADERS += \
 FORMS += \
         mainwindow.ui
 
-RESOURCES += \
-    simpletreemodel.qrc
-
 DISTFILES +=

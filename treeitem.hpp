@@ -17,7 +17,7 @@ public:
     TreeItem *child(int row); //Вернуть дочерний элемент
     int childCount() const; //Количество дочерних элементов
     int columnCount() const; //Вернуть количество столбцов элемента
-    QVariant data(int column) const; //Вернуть данные указанного столбца
+    QVariant data() const; //Вернуть данные указанного столбца
     int childNumber() const; //Вернуть номер строки элемента
 
     TreeItem *parentItem(); //Вернуть родительский элемент

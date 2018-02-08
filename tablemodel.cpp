@@ -2,6 +2,7 @@
 
 TableModel::TableModel(TreeItem *treeItem)
 {
+    treeIt = treeItem;
     treeItem->getListData(sData, iData, fData);
     rows = sData.count() + iData.count() + fData.count();
 }
@@ -50,7 +51,7 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
 bool TableModel::setData(const QModelIndex &index, const QVariant &value, int role) {
 
     if (role != Qt::EditRole) return false;
-    int r = 0;
+
     if(index.column() == 0){
         QString str = "";
 
@@ -75,6 +76,7 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
             fData << str.toFloat();
             str = "";
         }
+        treeIt->setListData(sData, iData, fData);
         return 1;
     }
 
@@ -86,6 +88,7 @@ bool TableModel::setData(const QModelIndex &index, const QVariant &value, int ro
         }else if((index.row()) >= iData.count() + sData.count() && (index.row() + 1) <= rows){
             fData[index.row() - sData.count() - iData.count()] = value.toFloat();
         }
+        treeIt->setListData(sData, iData, fData);
         return 1;
     }
 //    stringCheck(str);
@@ -119,6 +122,7 @@ void TableModel::delString(QModelIndex index){
                 --rows;
             }
         endRemoveRows();
+        treeIt->setListData(sData, iData, fData);
     }
 
 }
@@ -129,16 +133,8 @@ void TableModel::addString(QModelIndex index){
         sData << "New String";
         rows++;
     endInsertRows();
+    treeIt->setListData(sData, iData, fData);
 
 }
 
-bool TableModel::stringCheck(QString str){
-    for(int i = 0; i < str.size(); i++){
-        if(str[i] < "0" && str[i] > "9"){
-            if(str[i] != "+" || str[i] != "-" || str[i] != "."){
-                return 0;
-            }
-        }
-    }
-    return 0;
-}
+

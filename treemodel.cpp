@@ -29,7 +29,7 @@ QVariant TreeModel::data (const QModelIndex &index, int role) const {
     if (!index.isValid()) return QVariant();
     if (role != Qt::DisplayRole  && role != Qt::EditRole) return QVariant();
     TreeItem *item = getItem(index);
-    return item->data(index.column());
+    return item->data();
 }
 
 TreeItem *TreeModel::getItem(const QModelIndex &index) const {
@@ -46,7 +46,7 @@ Qt::ItemFlags TreeModel::flags(const QModelIndex &index) const {
 }
 
 QVariant TreeModel::headerData(int section, Qt::Orientation orientation, int role) const {
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) return rootItem->data(section);
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) return rootItem->data();
     return QVariant();
 }
 
@@ -81,7 +81,7 @@ void TreeModel::parsXML(QXmlStreamReader &reader, QList<TreeItem*> &parents){
                 if (attr.name().toString() == QLatin1String("type")) {
                     QString attribute_value = attr.value().toString();
 
-                    qDebug(qPrintable(parents.last()->data(0).toString()));
+                    qDebug(qPrintable(parents.last()->data().toString()));
                     parents.last()->child(parents.last()->childCount()-1)->initListData(attribute_value, reader.readElementText());
 
 //                    parents.last()->initListData(attribute_value, reader.readElementText());
@@ -169,3 +169,52 @@ TreeItem *TreeModel::getItemPublic(const QModelIndex &index) const {
     return rootItem;
 }
 
+void TreeModel::saveXMLRecurs(TreeItem *treeItem, QXmlStreamWriter &stream) const{
+    QList<QString> sData;
+    QList<int> iData;
+    QList<float> fData;
+    treeItem->getListData(sData, iData, fData);
+
+    for(int i = 0; i < sData.length(); i++){
+        stream.writeStartElement("item");
+        stream.writeAttribute("type", "string");
+        stream.writeCharacters(sData[i]);
+        stream.writeEndElement();
+    }
+    for(int i = 0; i < iData.length(); i++){
+        stream.writeStartElement("item");
+        stream.writeAttribute("type", "int");
+        stream.writeCharacters(QString::number(iData[i]));
+        stream.writeEndElement();
+    }
+    for(int i = 0; i < fData.length(); i++){
+        stream.writeStartElement("item");
+        stream.writeAttribute("type", "float");
+        stream.writeCharacters(QString::number(fData[i]));
+        stream.writeEndElement();
+    }
+    for(int i = 0; i < treeItem->childCount(); i++){
+        stream.writeStartElement("folder");
+        stream.writeAttribute("name", treeItem->child(i)->data().toString());
+        saveXMLRecurs(treeItem->child(i), stream);
+        stream.writeEndElement();
+    }
+
+}
+
+void TreeModel::saveXML(QFile &file) const{
+
+    QXmlStreamWriter stream(&file);
+    stream.setAutoFormatting(true);
+    stream.writeStartDocument();
+    stream.writeStartElement(rootItem->child(0)->data().toString());
+    for(int i = 0; i < rootItem->child(0)->childCount(); i++){
+        stream.writeStartElement("folder");
+        stream.writeAttribute("name", rootItem->child(0)->child(i)->data().toString());
+        saveXMLRecurs(rootItem->child(0)->child(i), stream);
+        stream.writeEndElement();
+    }
+    stream.writeEndElement();
+    stream.writeEndDocument();
+
+}
