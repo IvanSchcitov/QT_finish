@@ -27,6 +27,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::insertChild() {
+    if(!model) return;
     //Получаем модельный индекс и модель элемента:
     QModelIndex index = ui->TreeView_obj->selectionModel()->currentIndex();
     QAbstractItemModel *model = ui->TreeView_obj->model();
@@ -50,6 +51,7 @@ void MainWindow::insertChild() {
 }
 
 void MainWindow::insertRow() {
+    if(!model) return;
     QModelIndex index = ui->TreeView_obj->selectionModel()->currentIndex();
     QAbstractItemModel *model = ui->TreeView_obj->model();
     if (!model->insertRow(index.row()+1, index.parent())) return;
@@ -61,6 +63,7 @@ void MainWindow::insertRow() {
 }
 
 void MainWindow::removeRow() {
+    if(!model) return;
     QModelIndex index = ui->TreeView_obj->selectionModel()->currentIndex();
     QAbstractItemModel *model = ui->TreeView_obj->model();
     if (model->removeRow(index.row(), index.parent())) updateActions();
@@ -98,6 +101,7 @@ void MainWindow::updateActions() {
 }
 
 void MainWindow::insertTableRow() {
+    if(!t_model) return;
 
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
     t_model->addString(index);
@@ -105,6 +109,7 @@ void MainWindow::insertTableRow() {
 }
 
 void MainWindow::removeTableRow() {
+    if(!t_model) return;
 
     QModelIndex index = ui->tableView->selectionModel()->currentIndex();
     t_model->delString(index);
